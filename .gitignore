@@ -1,0 +1,5 @@
+# Files to ingnore
+/build
+/NullPasswd.pro.user
+/*.user
+
