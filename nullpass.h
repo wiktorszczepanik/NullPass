@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <string>
+#include <array>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,6 +15,9 @@ class NullPass : public QMainWindow {
     Q_OBJECT
 
 public:
+
+    std::array<std::string, 14> emoji;
+
     NullPass(QWidget *parent = nullptr);
     ~NullPass();
 
@@ -29,6 +33,8 @@ private slots:
     void on_pushButtonSiteCopy_clicked();
 
     void on_pushButtonLoginCopy_clicked();
+
+    void on_lineEditSecret_textChanged(const QString &arg1);
 
 private:
     Ui::NullPass *ui;

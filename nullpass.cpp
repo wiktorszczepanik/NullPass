@@ -12,10 +12,14 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QTimer>
+#include <QDebug>
+#include <thread>
+#include <chrono>
 
 NullPass::NullPass(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::NullPass) {
     ui->setupUi(this);
+    emoji = {"🕶️", "🐧", "🍎", "⚽", "🙂", "🎸", "👣", "🚩", "☢️", "🎁", "💣", "🤡", "🥤", "🌵"};
 }
 
 NullPass::~NullPass() {
@@ -64,7 +68,7 @@ void NullPass::on_pushButtonGenerate_clicked() {
             ui -> checkBoxUppercase -> isChecked(),
             ui -> checkBoxDigets -> isChecked(),
             ui -> checkBoxSpecialCharacters -> isChecked()
-            );
+        );
         auto pass_length = get_pass_length();
         auto pass_counter = get_pass_counter();
 
@@ -87,14 +91,17 @@ void NullPass::on_pushButtonCopy_clicked() {
     auto password = ui -> lineEditOutput -> text();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard -> setText(password);
-    QTimer::singleShot(10000, [clipboard]() {
+    auto status = ui -> statusbar;
+    status -> showMessage("Password copied for 10s...");
+    QTimer::singleShot(10000, [clipboard, status]() {
         clipboard -> setText("");
+        status -> showMessage("");
     });
 }
 
-
 void NullPass::on_pushButtonShow_clicked() {
-    if (ui -> lineEditOutput -> echoMode() == QLineEdit::Password) {
+    if (ui -> lineEditOutput -> echoMode() == QLineEdit::Password
+        && !(ui -> lineEditOutput -> text().toStdString().empty())) {
         ui -> lineEditOutput -> setEchoMode(QLineEdit::Normal);
         ui -> pushButtonShow -> setText("Hide");
     } else {
@@ -103,28 +110,45 @@ void NullPass::on_pushButtonShow_clicked() {
     }
 }
 
-
 void NullPass::on_pushButtonClear_clicked() {
     ui -> lineEditOutput -> setText("");
 }
-
 
 void NullPass::on_pushButtonSiteCopy_clicked() {
     auto site_text = ui -> lineEditSite -> text();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard -> setText(site_text);
-    QTimer::singleShot(10000, [clipboard]() {
+    auto status = ui -> statusbar;
+    status -> showMessage("Site copied for 10s...");
+    QTimer::singleShot(10000, [clipboard, status]() {
         clipboard -> setText("");
+        status -> showMessage("");
     });
 }
-
 
 void NullPass::on_pushButtonLoginCopy_clicked() {
     auto login_text = ui -> lineEditLogin -> text();
     QClipboard *clipboard = QApplication::clipboard();
     clipboard -> setText(login_text);
-    QTimer::singleShot(10000, [clipboard]() {
+    auto status = ui -> statusbar;
+    status -> showMessage("Login copied for 10s...");
+    QTimer::singleShot(10000, [clipboard, status]() {
         clipboard -> setText("");
+        status -> showMessage("");
     });
+}
+
+void NullPass::on_lineEditSecret_textChanged(const QString &arg1) {
+    if (!arg1.toStdString().empty()) {
+        auto hash = std::hash<std::string>{}(arg1.toStdString());
+        auto emoji_len = emoji.size();
+        auto emoji_text = QString();
+        for (int i = 0; i < 3; i++) {
+            auto index = (hash) % emoji_len;
+            emoji_text += emoji[index];
+            hash = std::hash<std::string>{}(std::to_string(hash));
+        }
+        ui -> lineEditEmoji -> setText(emoji_text);
+    } else ui -> lineEditEmoji -> setText("");
 }
 
