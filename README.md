@@ -1,3 +1,5 @@
+## NullPass
+
 NullPass is a desktop application designed to simplify the way you handle your passwords. 
 Unlike traditional password managers, this application operates entirely on your local machine. 
 Importantly, it does not store any passwords physically on your disk. 
