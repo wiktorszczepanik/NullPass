@@ -16,8 +16,6 @@ class NullPass : public QMainWindow {
 
 public:
 
-    std::array<std::string, 14> emoji;
-
     NullPass(QWidget *parent = nullptr);
     ~NullPass();
 
@@ -38,7 +36,6 @@ private slots:
 
 private:
     Ui::NullPass *ui;
-    auto create_charset(bool, bool, bool, bool) -> std::string;
     auto get_passphrase() -> std::string;
     auto get_pass_length() -> int;
     auto get_pass_counter() -> int;

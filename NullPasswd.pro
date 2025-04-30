@@ -11,11 +11,14 @@ CONFIG += c++17
 SOURCES += \
     crypto.cpp \
     main.cpp \
-    nullpass.cpp
+    nullpass.cpp \
+    support.cpp
 
 HEADERS += \
+    constants.h \
     crypto.h \
-    nullpass.h
+    nullpass.h \
+    support.h
 
 FORMS += \
     nullpass.ui
