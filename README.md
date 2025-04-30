@@ -5,6 +5,8 @@ Instead, it generates passwords on-the-fly based on a master password and a set 
 This means that your passwords are never saved in a retrievable format, significantly reducing the risk of unauthorized access or data breaches.
 As a result of this design, there is no backups and synchronization between devices. 
 
+![Example](img/example-img.png)
+
 ### User Defined Input
 `Site` - The name of the website or service for which the password is being generated.
 
@@ -32,7 +34,7 @@ The result of the password generation process is a secure password derived using
 - Clipboard History Management: 
 The application currently lacks the functionality to remove copied values from the clipboard history.
 - Local Database for Logins: 
-There is no local database for storing website login credentials (frature / bug)
+There is no local database for storing website login credentials (feature / bug)
 
 ### Note
 This Password Manager is inspired by **LessPass**, aiming to provide a similar level of security and functionality while operating as a desktop application. 
